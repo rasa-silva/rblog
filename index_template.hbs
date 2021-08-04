@@ -1,0 +1,52 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Random thoughts</title>
+  <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura-dark.css" type="text/css">
+</head>
+
+<body>
+  <h1>Just some random junk...</h1>
+  {{#each articles as |article|}}
+  <h5><a href="{{article.filename}}.html">{{article.title}}</a> <small>{{article.modified_at}}</small></h5>
+  {{/each}}
+
+  <br>
+
+  <div>
+    <label for="search_input">Search</label>
+    <input type="search" id="search_input" />
+    <div id="search_results"></div>
+  </div>
+
+  <script>
+    const search = document.getElementById('search_input');
+    const search_results = document.getElementById('search_results');
+    var search_data = [];
+
+    search.onfocus = async function (ev) {
+      const data = await fetch("search_data.json");
+      search_data = await data.json();
+    }
+
+    search.addEventListener('input' , () => searchArticles(search.value));
+
+    function searchArticles(term) {
+      if (term.length == 0) {
+        search_results.innerHTML = "";
+        return;
+      }
+
+      const matches = search_data.filter(entry => entry.body.includes(term));
+
+      const html = matches.map(match => `
+    <h5><a href="${match.link}">${match.title}</a></h5>
+    `).join('');
+
+      search_results.innerHTML = html;
+    }
+  </script>
+</body>
+
+</html>
