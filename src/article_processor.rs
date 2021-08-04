@@ -15,6 +15,7 @@ use std::{
 pub struct Article {
     title: String,
     body: String,
+    link: String,
     created_at: String,
     pub filename: String,
 }
@@ -72,9 +73,13 @@ impl<'a> ArticleProcessor<'a> {
             .to_str()
             .unwrap();
 
+        let mut link = file_stem.to_owned();
+        link.push_str(".html");
+
         let article = Article {
             title: title.to_owned(),
             body: text.to_owned(),
+            link,
             created_at: t.format("%d/%m/%y").to_string(),
             filename: file_stem.to_string(),
         };
