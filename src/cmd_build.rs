@@ -58,7 +58,7 @@ fn make_index_page(output: &Path, articles: &mut Vec<Article>) -> Result<(), Cmd
     Ok(())
 }
 
-fn generate_search_index(output: &Path, articles: &Vec<Article>) -> Result<(), CmdError> {
+fn generate_search_index(output: &Path, articles: &[Article]) -> Result<(), CmdError> {
     //TODO the article structure needs to include the link field to match the expected
     //json format
     let index_contents = serde_json::to_string(articles).unwrap();

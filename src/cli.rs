@@ -40,25 +40,25 @@ impl CliCommand {
 
 #[derive(Debug)]
 pub enum CmdError {
-    IoError(io::Error),
-    RenderError(handlebars::RenderError),
-    TemplateError(handlebars::TemplateError),
+    Io(io::Error),
+    Render(handlebars::RenderError),
+    Template(handlebars::TemplateError),
 }
 
 impl From<io::Error> for CmdError {
     fn from(error: io::Error) -> Self {
-        CmdError::IoError(error)
+        CmdError::Io(error)
     }
 }
 
 impl From<handlebars::TemplateError> for CmdError {
     fn from(error: handlebars::TemplateError) -> Self {
-        CmdError::TemplateError(error)
+        CmdError::Template(error)
     }
 }
 
 impl From<handlebars::RenderError> for CmdError {
     fn from(error: handlebars::RenderError) -> Self {
-        CmdError::RenderError(error)
+        CmdError::Render(error)
     }
 }
